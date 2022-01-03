@@ -22,6 +22,7 @@ const sketch = ({ context, width, height }) => {
     context.fillStyle = 'white';
     context.fillRect(0, 0, width, height);
 
+    // draw lines connecting agents
     for (let i = 0; i < agents.length; i++) {
       const agent = agents[i];
 
@@ -43,6 +44,7 @@ const sketch = ({ context, width, height }) => {
 
     agents.forEach(agent => {
       agent.bounce(width, height);
+      //agent.wrap(width, height);
       agent.update();
       agent.draw(context);
     });
@@ -74,6 +76,13 @@ class Agent {
   bounce(width, height) {
     if (this.pos.x <= 0 || this.pos.x >= width) this.vel.x *= -1;
     if (this.pos.y <= 0 || this.pos.y >= height) this.vel.y *= -1;
+  }
+
+  wrap(width, height) {
+    if (this.pos.x <= 0) this.pos.x = width;
+    if (this.pos.x > width) this.pos.x = 0;
+    if (this.pos.y <= 0) this.pos.y = height;
+    if (this.pos.y > height) this.pos.y = 0;
   }
 
   update() {
